@@ -1,8 +1,8 @@
 ---
 layout: post
-title: template page
-categories: [ cate1, cate2 ]
-description: some word here
+title: 动态调用Spring任意Bean的任意public方法
+categories: [ Tools ]
+description: 一种动态调用Spring任意Bean的任意public方法的实现
 keywords: keyword1, keyword2
 mermaid: false
 sequence: false
