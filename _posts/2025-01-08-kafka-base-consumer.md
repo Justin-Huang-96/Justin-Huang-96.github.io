@@ -1,7 +1,7 @@
 ---
 layout: post
 title: kafka-base-consumer
-categories: [kafka, consumer]
+categories: [ kafka, consumer ]
 description: some word here
 keywords: keyword1, keyword2
 mermaid: false
@@ -12,6 +12,33 @@ mindmap: false
 mindmap2: false
 ---
 
+# 设计亮点
+
+## 动态线程管理：
+
+采用 ExecutorService 创建动态线程池 (CachedThreadPool)，根据需要随时创建和销毁线程，避免了固定线程池资源浪费或不足的问题。
+每个Kafka分区独立维护一个线程和队列，确保分区之间的并行处理能力，提升了吞吐量和消费效率。
+
+## 分区隔离和动态扩展：
+
+使用 ConcurrentHashMap 维护分区的消息队列和线程任务，动态为不同的分区创建线程。
+分区线程在无新消息时自动关闭，减少空闲线程占用资源。
+
+## 线程空闲回收机制：
+
+如果分区线程在规定时间内（IDLE_TIMEOUT_MS）没有处理到消息，则主动关闭线程并移除分区队列，避免线程长期空闲占用资源。
+
+## 线程池监控机制：
+
+定期通过调度任务 (ScheduledExecutorService) 监控线程池状态，打印当前活跃线程数和队列大小，便于系统运行状态观测和问题排查。
+
+## 事件监听与自动关闭：
+
+监听 ConsumerStoppedEvent，当Kafka消费者停止时，自动触发关闭流程，确保线程池和资源及时释放，防止资源泄漏。
+
+## 灵活的消息处理机制：
+
+采用抽象方法 process()子类实现自定义的Kafka消息处理逻辑，确保代码具备良好的扩展性，适用于不同业务场景。
 
 # Base-Consumer代码示例
 
@@ -203,7 +230,6 @@ public abstract class BaseConsumer implements ApplicationListener<ConsumerStoppe
 }
 
 ```
-
 
 # DemoConsumer示例
 
