@@ -610,3 +610,57 @@ public class DemoConsumer extends BaseConsumer {
 }
 
 ```
+
+
+## 批量消息的处理
+```java
+
+package com.binge.demo.kafkaclientdemo.demos.consumer;
+
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+/**
+ * @author: Justin Huang
+ * @description: 一个consumer实现类只针对一个topic
+ * @date: 2025/1/7 9:54
+ */
+@Service
+public class DemoConsumer2 extends BaseConsumer {
+
+    private static final Logger logger = LoggerFactory.getLogger(DemoConsumer2.class);
+    public static final String TOPIC = "test-topic2";
+
+    public DemoConsumer2() {
+        //固定写法
+        super(TOPIC);
+    }
+
+
+    @KafkaListener(topics = TOPIC)
+    //批量消息，单独处理即可
+    public void listen(List<ConsumerRecord<String, String>> records, Acknowledgment acknowledgment) {
+        List<String> set = records.stream().map(ConsumerRecord::value).collect(Collectors.toList());
+        logger.info("records: {} values:{}", records.size(), set);
+        acknowledgment.acknowledge();
+    }
+
+
+    @Override
+    public void process(ConsumerRecord<String, String> record) {
+        //如果不调用父类的start方法，这里的方法是无效的
+        logger.info("Processing message with key: {}, value: {}  partition:{}", record.key(), record.value(), record.partition());
+    }
+}
+
+
+```
