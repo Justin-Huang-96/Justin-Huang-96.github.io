@@ -27,11 +27,10 @@ SpringAI 是 Spring 生态系统中新兴的 AI 集成框架，旨在帮助开�
 在 `pom.xml` 中添加 SpringAI 相关依赖：
 
 ```plain
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-ollama</artifactId>
-    <version>0.8.0</version>
-</dependency>
+      <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-ollama-spring-boot-starter</artifactId>
+        </dependency>
 ```
 
 ### 2️⃣ 配置 AI 模型
