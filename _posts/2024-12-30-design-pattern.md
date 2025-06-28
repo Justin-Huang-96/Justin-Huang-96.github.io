@@ -14,6 +14,14 @@ mindmap2: false
 
 # 浅谈设计模式
 
+## Design Patterns Overview
+
+### English Version
+Design patterns are reusable solutions to common problems in software design. They provide a template for solving issues that occur repeatedly in different contexts.
+
+### 中文版本
+设计模式是软件设计中常见问题的可复用解决方案。它们提供了解决不同上下文中重复出现的问题的模板.
+
 先从Spring这个框架开始学习，看看它用了哪些优秀的设计模式
 
 ### **1. 工厂模式（Factory Pattern）**
@@ -25,17 +33,9 @@ mindmap2: false
 
 1. **解耦对象创建与使用**：使用者不关心具体对象如何创建，只关心获取的接口或类。
 2. **便于扩展**：可以通过修改工厂类或 `FactoryBean` 实现动态切换不同的 Bean 实现类。
-3. **统一管理**：所有 Bean 的创建和生命周期由 Spring 容器统一管理，**便于集中修改和优化**。
-
-
+3. **统一管理**：所有 Bean 的创建和生命周期由 Spring 容器统一管理，**便于集中修改和优化**.
 
 > `BeanFactory` 是 Spring 最基础的 IOC 容器接口，它负责管理和创建 Bean 实例。
 >
 > `ApplicationContext` 是 `BeanFactory` 的子接口，提供更多高级功能，比如事件发布、国际化等。
 >
-> 
-
-
-
-
-
